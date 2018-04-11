@@ -4,6 +4,8 @@ from dictionaryRecognice import *
 def main():
     voice = voiceRecognition()
     dictionary = dictionaryRecognice()
+    dictionary.setLanguagesAndWords()
+    print(dictionary.dictionary)
     while(True):
         try:
             word = voice.captureVoice()
