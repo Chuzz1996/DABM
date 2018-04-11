@@ -10,5 +10,5 @@ class voiceRecognition:
         with sr.Microphone() as source:
             print("Say somethig: ")
             audio = self.r.listen(source)
-            print(self.r.recognize_google(audio))
+            return self.r.recognize_google(audio)
 
