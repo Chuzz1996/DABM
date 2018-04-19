@@ -5,11 +5,21 @@
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
-
+from voiceRecognition import *
+from dictionaryRecognice import *
+from Arduino import *
+from PyQt5.QtWidgets import QWidget,QMessageBox,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+        self.voice = voiceRecognition()
+        self.dictionary = dictionaryRecognice()
+        self.dictionary.setLanguagesAndWords()
+        self.arduinoDisponible = False
+        self._ConexionArduino()
+        
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -95,10 +105,12 @@ class Ui_MainWindow(object):
         self.labelLucesHab2 = QtWidgets.QLabel(self.centralwidget)
         self.labelLucesHab2.setGeometry(QtCore.QRect(570, 170, 191, 151))
         self.labelLucesHab2.setText("")
+        self.labelLucesHab1.setStyleSheet("background-image: url(ui/bombApagado.jpg);")
         self.labelLucesHab2.setObjectName("labelLucesHab2")
         self.labelVentiladorHab1 = QtWidgets.QLabel(self.centralwidget)
         self.labelVentiladorHab1.setGeometry(QtCore.QRect(290, 380, 191, 151))
         self.labelVentiladorHab1.setText("")
+        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorAp.jpg);")
         self.labelVentiladorHab1.setObjectName("labelVentiladorHab1")
         self.labelVentiladorHab2 = QtWidgets.QLabel(self.centralwidget)
         self.labelVentiladorHab2.setGeometry(QtCore.QRect(570, 380, 191, 151))
@@ -118,10 +130,39 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         
-    def _ReconocerVoz(self):
-        self.graphicsView.setStyleSheet("background-image: url(ui/recVoz.jpg);")
+    def _ConexionArduino(self):
+        try:
+            if(not self.arduinoDisponible):
+                self.arduino = Arduino("COM3",9600)
+                self.arduinoDisponible = True
+        except:
+            self.arduinoDisponible = False
+            print("No esta conectado el Arduino")
         
-
+    def _ReconocerVoz(self):
+        self._ConexionArduino()
+        if(self.arduinoDisponible and self.arduino.RevisarConexionArduino()):
+            self.graphicsView.setStyleSheet("background-image: url(ui/recVoz.jpg);")
+            frase = self.voice.captureVoice().lower()
+            indice = self.dictionary.containESdictionary(frase)
+            if(indice >= 0):
+                if(indice <= 1):
+                    if(indice % 2 == 0):
+                        self.labelLucesHab1.setStyleSheet("background-image: url(ui/luzPrendida.jpg);")
+                    else:
+                        self.labelLucesHab1.setStyleSheet("background-image: url(ui/bombApagado.jpg);")
+                else:
+                    if(indice % 2 == 0):
+                        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorEncen.gif);")
+                    else:
+                        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorAp.jpg);")
+        else:
+            msg = QMessageBox()
+            msg.setText("Verifique la conexión con el Arduino!!")
+            msg.setWindowTitle("Mensaje")
+            msg.exec()
+                    
+        
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))

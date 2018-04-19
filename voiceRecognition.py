@@ -12,3 +12,5 @@ class voiceRecognition:
             audio = self.r.listen(source)
             return self.r.recognize_google(audio)
 
+        
+
