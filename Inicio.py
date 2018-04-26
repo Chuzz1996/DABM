@@ -11,6 +11,7 @@ from Arduino import *
 from PyQt5.QtWidgets import QWidget,QMessageBox,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
 import threading
+from speech import *
 
 class Ui_MainWindow(object):
     
@@ -134,7 +135,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.word = None
-
+        self.speech = Speech()
     
     def setWord(self,word):
         self.word = word
@@ -148,7 +149,7 @@ class Ui_MainWindow(object):
                 self.arduinoDisponible = True
         except:
             self.arduinoDisponible = False
-            print("No esta conectado el Arduino")
+            Speech("No esta conectado el Arduino").speech()
         
     def _ReconocerVoz(self):
         VoiceThread(voiceRecognition(),self).start()
@@ -204,4 +205,4 @@ class VoiceThread(threading.Thread):
             else:
                 self.grafig.setWord(self.valor)
         except:
-            print("Que chuchas")
+            Speech("we cant lisent you").speech()
