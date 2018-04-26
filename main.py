@@ -1,22 +1,13 @@
-from voiceRecognition import *
-from dictionaryRecognice import *
+from Inicio import *
+from PyQt5.QtWidgets import QWidget,QMessageBox,QApplication
+from PyQt5 import QtCore, QtGui, QtWidgets
 
 def main():
-    voice = voiceRecognition()
-    dictionary = dictionaryRecognice()
-    dictionary.setLanguagesAndWords()
-    print(dictionary.dictionary)
-    while(True):
-        try:
-            word = voice.captureVoice()
-            print("You say: "+word)
-            if(word=="finish"):
-                break
-            check = dictionary.has(word)
-        except:
-            continue
-        if(check==True):
-            print("Contains")
-        else:
-            print("doesn't contains")
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
 main()

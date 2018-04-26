@@ -10,8 +10,10 @@ from dictionaryRecognice import *
 from Arduino import *
 from PyQt5.QtWidgets import QWidget,QMessageBox,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
+import threading
 
 class Ui_MainWindow(object):
+    
     def setupUi(self, MainWindow):
 
         self.voice = voiceRecognition()
@@ -124,12 +126,21 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+
         
         self.btnReconocerVoz.clicked.connect(self._ReconocerVoz)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
+
+        self.word = None
+
+    
+    def setWord(self,word):
+        self.word = word
+        if(self.word!="Acabo"):
+            self.accion()
+            
     def _ConexionArduino(self):
         try:
             if(not self.arduinoDisponible):
@@ -140,11 +151,13 @@ class Ui_MainWindow(object):
             print("No esta conectado el Arduino")
         
     def _ReconocerVoz(self):
+        VoiceThread(voiceRecognition(),self).start()
+
+    def accion(self):
         self._ConexionArduino()
-        if(self.arduinoDisponible and self.arduino.RevisarConexionArduino()):
+        if(self.arduinoDisponible==True and self.arduino.RevisarConexionArduino()==True):
             self.graphicsView.setStyleSheet("background-image: url(ui/recVoz.jpg);")
-            frase = self.voice.captureVoice().lower()
-            indice = self.dictionary.containESdictionary(frase)
+            indice = self.dictionary.containESdictionary(self.word)
             if(indice >= 0):
                 if(indice <= 1):
                     if(indice % 2 == 0):
@@ -161,7 +174,6 @@ class Ui_MainWindow(object):
             msg.setText("Verifique la conexión con el Arduino!!")
             msg.setWindowTitle("Mensaje")
             msg.exec()
-                    
         
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -177,13 +189,19 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "Ventilador Habitación 1"))
         self.label_11.setText(_translate("MainWindow", "Ventilador Habitación 2"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
-
+class VoiceThread(threading.Thread):
+    
+    def __init__(self,voice,grafig):
+        threading.Thread.__init__(self)
+        self.voice = voice
+        self.grafig = grafig
+        
+    def run(self):
+        try:
+            self.valor = self.voice.captureVoice()
+            if(self.valor=="finish" or self.valor==None):
+                self.grafig.setWord("Acabo")
+            else:
+                self.grafig.setWord(self.valor)
+        except:
+            print("Que chuchas")

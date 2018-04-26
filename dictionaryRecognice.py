@@ -8,7 +8,7 @@ class dictionaryRecognice:
 	
     def setLanguagesAndWords(self):
         self.dictionary["EN"] = ["light on","light off","activate fan","stop fan"]
-        self.dictionary["ES"] = ["encender luz","apagar luz","activar ventilador","detener ventilador"]
+        self.dictionary["ES"] = ["encender luz","apagar luz","activar ventilador","detener ventilador","hola"]
         
 
     def containESdictionary(self,word):

@@ -13,4 +13,3 @@ class voiceRecognition:
             return self.r.recognize_google(audio)
 
         
-
