@@ -9,4 +9,3 @@ class Speech():
     def speech(self):
         self.took.say(self.word)
         self.took.runAndWait()
-

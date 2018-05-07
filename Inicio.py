@@ -135,11 +135,12 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.word = None
-        self.speech = Speech()
+
     
     def setWord(self,word):
         self.word = word
         if(self.word!="Acabo"):
+            print(self.word)
             self.accion()
             
     def _ConexionArduino(self):
@@ -162,13 +163,17 @@ class Ui_MainWindow(object):
             if(indice >= 0):
                 if(indice <= 1):
                     if(indice % 2 == 0):
+                        self.arduino.EnviarDatos('L')
                         self.labelLucesHab1.setStyleSheet("background-image: url(ui/luzPrendida.jpg);")
                     else:
+                        self.arduino.EnviarDatos('l')
                         self.labelLucesHab1.setStyleSheet("background-image: url(ui/bombApagado.jpg);")
                 else:
                     if(indice % 2 == 0):
+                        self.arduino.EnviarDatos('V')
                         self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorEncen.gif);")
                     else:
+                        self.arduino.EnviarDatos('v')
                         self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorAp.jpg);")
         else:
             msg = QMessageBox()
@@ -205,4 +210,5 @@ class VoiceThread(threading.Thread):
             else:
                 self.grafig.setWord(self.valor)
         except:
+            print("encejdje")
             Speech("we cant lisent you").speech()

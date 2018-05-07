@@ -29,3 +29,4 @@ class Arduino:
         def RevisarConexionArduino(self):
             # 0 si no hay un serial conectado, mayor a 0 si hay almenos un serial conectado
             return (len(list(serial.tools.list_ports.comports()))>0)
+
