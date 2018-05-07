@@ -108,12 +108,12 @@ class Ui_MainWindow(object):
         self.labelLucesHab2 = QtWidgets.QLabel(self.centralwidget)
         self.labelLucesHab2.setGeometry(QtCore.QRect(570, 170, 191, 151))
         self.labelLucesHab2.setText("")
-        self.labelLucesHab1.setStyleSheet("background-image: url(ui/bombApagado.jpg);")
+        self.labelLucesHab1.setStyleSheet("border-image: url(ui/bombApagado.jpg);")
         self.labelLucesHab2.setObjectName("labelLucesHab2")
         self.labelVentiladorHab1 = QtWidgets.QLabel(self.centralwidget)
         self.labelVentiladorHab1.setGeometry(QtCore.QRect(290, 380, 191, 151))
         self.labelVentiladorHab1.setText("")
-        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorAp.jpg);")
+        self.labelVentiladorHab1.setStyleSheet("border-image: url(ui/ventiladorAp.jpg);")
         self.labelVentiladorHab1.setObjectName("labelVentiladorHab1")
         self.labelVentiladorHab2 = QtWidgets.QLabel(self.centralwidget)
         self.labelVentiladorHab2.setGeometry(QtCore.QRect(570, 380, 191, 151))
@@ -158,23 +158,23 @@ class Ui_MainWindow(object):
     def accion(self):
         self._ConexionArduino()
         if(self.arduinoDisponible==True and self.arduino.RevisarConexionArduino()==True):
-            self.graphicsView.setStyleSheet("background-image: url(ui/recVoz.jpg);")
+            self.graphicsView.setStyleSheet("border-image: url(ui/recVoz.jpg);")
             indice = self.dictionary.containESdictionary(self.word)
             if(indice >= 0):
                 if(indice <= 1):
                     if(indice % 2 == 0):
                         self.arduino.EnviarDatos('L')
-                        self.labelLucesHab1.setStyleSheet("background-image: url(ui/luzPrendida.jpg);")
+                        self.labelLucesHab1.setStyleSheet("border-image: url(ui/luzPrendida.jpg);")
                     else:
                         self.arduino.EnviarDatos('l')
-                        self.labelLucesHab1.setStyleSheet("background-image: url(ui/bombApagado.jpg);")
+                        self.labelLucesHab1.setStyleSheet("border-image: url(ui/bombApagado.jpg);")
                 else:
                     if(indice % 2 == 0):
                         self.arduino.EnviarDatos('V')
-                        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorEncen.gif);")
+                        self.labelVentiladorHab1.setStyleSheet("border-image: url(ui/ventiladorEncen.gif);")
                     else:
                         self.arduino.EnviarDatos('v')
-                        self.labelVentiladorHab1.setStyleSheet("background-image: url(ui/ventiladorAp.jpg);")
+                        self.labelVentiladorHab1.setStyleSheet("border-image: url(ui/ventiladorAp.jpg);")
         else:
             msg = QMessageBox()
             msg.setText("Verifique la conexión con el Arduino!!")
@@ -210,5 +210,4 @@ class VoiceThread(threading.Thread):
             else:
                 self.grafig.setWord(self.valor)
         except:
-            print("encejdje")
             Speech("we cant lisent you").speech()

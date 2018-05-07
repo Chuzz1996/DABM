@@ -7,13 +7,13 @@ class dictionaryRecognice:
         self.dictionary = {}
 	
     def setLanguagesAndWords(self):
-        self.dictionary["EN"] = ["light on","light off","activate fan","stop fan"]
+        self.dictionary["EN"] = ["on","off","1","2"]
         self.dictionary["ES"] = ["encender luz","apagar luz","activar ventilador","detener ventilador","hola"]
         
 
     def containESdictionary(self,word):
         try:
-            index = self.dictionary["ES"].index(word)
+            index = self.dictionary["EN"].index(word)
             return index
         except ValueError:
             return -1
