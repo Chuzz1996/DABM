@@ -195,6 +195,7 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "Ventilador Habitación 1"))
         self.label_11.setText(_translate("MainWindow", "Ventilador Habitación 2"))
 
+
 class VoiceThread(threading.Thread):
     
     def __init__(self,voice,grafig):

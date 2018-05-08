@@ -8,7 +8,7 @@ missing module named multiprocessing.get_start_method - imported by multiprocess
 missing module named resource - imported by posix, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named posix - imported by os, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named _posixsubprocess - imported by subprocess, multiprocessing.util, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
-missing module named 'org.python' - imported by pickle, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py, xml.sax
+missing module named org - imported by pickle, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named readline - imported by cmd, code, pdb, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 excluded module named _frozen_importlib - imported by importlib, importlib.abc, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named _frozen_importlib_external - imported by importlib._bootstrap, importlib, importlib.abc, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
@@ -22,7 +22,7 @@ missing module named urllib.urlencode - imported by urllib, speech_recognition
 missing module named grp - imported by shutil, tarfile, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named pwd - imported by posixpath, shutil, tarfile, http.server, webbrowser, netrc, getpass, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
 missing module named _dummy_threading - imported by dummy_threading, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
-missing module named org - imported by copy, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py
+missing module named 'org.python' - imported by copy, C:\Users\hernan.losada\Documents\DABM-2tercio\DABM\main.py, xml.sax
 missing module named fcntl - imported by serial.serialposix
 missing module named 'System.IO' - imported by serial.serialcli
 missing module named System - imported by serial.serialcli
