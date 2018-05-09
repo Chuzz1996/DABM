@@ -7,13 +7,13 @@ class voiceRecognition:
     def __init__(self):
         self.r = sr.Recognizer()
 
-    def captureVoice(self):
+    '''def captureVoice(self):
         with sr.Microphone() as source:
             print("Say somethig: ")
             audio = self.r.listen(source)
-            return self.r.recognize_google(audio)
+            return self.r.recognize_google(audio)'''
 
-    '''def captureVoice(self):
+    def captureVoice(self):
         a = ["on","off","1","2"]
-        return a[random.randint(-1, 3)]'''
+        return a[random.randint(-1, 3)]
         

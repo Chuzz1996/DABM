@@ -12,6 +12,7 @@ from PyQt5.QtWidgets import QWidget,QMessageBox,QApplication
 from PyQt5 import QtCore, QtGui, QtWidgets
 import threading
 import time
+import socket
 from speech import *
 
 class Ui_MainWindow(object):
@@ -19,8 +20,6 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
 
         self.voice = voiceRecognition()
-        self.dictionary = dictionaryRecognice()
-        self.dictionary.setLanguagesAndWords()
         self.arduinoDisponible = False
         self._ConexionArduino()
         
@@ -140,6 +139,8 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.word = None
+        self.s = socket.socket()
+        self.s.connect(("localhost",6000))
 
     
     def setWord(self,word):
@@ -169,7 +170,9 @@ class Ui_MainWindow(object):
         if(self.arduinoDisponible==True and self.arduino.RevisarConexionArduino()==True):
             imagevoicethread = VoiceRecordImage(self.graphicsView)
             imagevoicethread.start()
-            indice = self.dictionary.containESdictionary(self.word)
+            self.s.send(self.word.encode("utf-8"))
+            indice = int(self.s.recv(1024).decode("utf-8"))
+            print("este es el indice",type(indice))
             if(indice >= 0):
                 if(indice <= 1):
                     if(indice % 2 == 0):
@@ -185,6 +188,8 @@ class Ui_MainWindow(object):
                     else:
                         self.arduino.EnviarDatos('v')
                         self.labelVentiladorHab1.setStyleSheet("border-image: url(ui/ventiladorAp.jpg);")
+
+                    
         else:
             msg = QMessageBox()
             msg.setText("Verifique la conexión con el Arduino!!")
@@ -234,3 +239,4 @@ class VoiceThread(threading.Thread):
             Speech(self.valor).speech()
         except:
             Speech("we cant lisent you").speech()
+
